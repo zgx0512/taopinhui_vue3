@@ -2,7 +2,7 @@
   <div
     class="flex flex-col items-center justify-between header backdrop-blur-sm bg-white/75 dark:bg-black/75"
   >
-    <div class="text-lg text-center">mocha Vue3 Admin</div>
+    <div class="text-lg text-center">淘品汇后台管理系统</div>
 
     <div class="flex flex-col items-center justify-center">
       <SiteSearch class="mb-8" />
@@ -64,7 +64,7 @@ const userStore = useUserStore()
 const tenantId = ref('mocha')
 const tenantOptions: Array<SelectOptionItem> = reactive([{ value: 'mocha', label: 'mocha' }])
 
-const username: string | null = userStore.username
+const username: string | null = userStore.userInfo.username
 
 const sidebar = useSidebarStore()
 // 侧边栏折叠

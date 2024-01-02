@@ -33,7 +33,7 @@
         <!-- 消息中心 -->
         <Message />
         <!-- 用户头像 -->
-        <el-avatar class="ml-2" :size="30" :src="imgurl" />
+        <el-avatar class="ml-2" :size="30" :src="imgUrl" />
         <!-- 用户名下拉菜单 -->
         <el-dropdown class="mx-2" trigger="click" @command="handleCommand">
           <span class="flex items-center cursor-pointer">
@@ -44,7 +44,7 @@
           </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <a href="https://github.com/lucidity99/mocha-vue3-system" target="_blank">
+              <a href="#" target="_blank">
                 <el-dropdown-item>项目仓库</el-dropdown-item>
               </a>
               <el-dropdown-item command="user">个人中心</el-dropdown-item>
@@ -65,7 +65,6 @@ import { useRouter } from 'vue-router'
 import { SelectOptionItem } from '~/types/index'
 import { useDark, useToggle } from '@vueuse/core'
 import { Sunny, Moon } from '@element-plus/icons-vue'
-import imgurl from '~/assets/images/img.jpg'
 import { useUserStore } from '~/store/user'
 import SiteSearch from '../SiteSearch.vue'
 import Message from '../Message.vue'
@@ -83,7 +82,8 @@ const userStore = useUserStore()
 const tenantId = ref('mocha')
 const tenantOptions: Array<SelectOptionItem> = reactive([{ value: 'mocha', label: 'mocha' }])
 
-const username: string | null = userStore.username
+const username: string | null = userStore.userInfo.username
+const imgUrl: string = userStore.userInfo.avatar
 
 const sidebar = useSidebarStore()
 // 侧边栏折叠

@@ -62,7 +62,7 @@ function filterFunc(routes: RouteRecordRaw[]) {
   return routes
 }
 
-export async function addAsyncRoutes(router) {
+export async function addAsyncRoutes(router: any) {
   const useUser = useUserStore()
   const permissionMode = import.meta.env.VITE_PERMISSION_MODE
 
@@ -74,7 +74,7 @@ export async function addAsyncRoutes(router) {
   // 后端动态路由模式
   if (permissionMode === 'BACK') {
     let routes = await getBackAsyncRoutes()
-    filteredRoutes = formatAsyncRoutes(routes)
+    filteredRoutes = formatAsyncRoutes(routes as any)
   }
   filteredRoutes.forEach((val) => router.addRoute(val))
   useUser.setAsyncRoutes(filteredRoutes)

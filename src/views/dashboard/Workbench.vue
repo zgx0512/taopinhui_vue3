@@ -58,8 +58,7 @@ import PieChart from './components/PieChart.vue'
 import { useUserStore } from '~/store/user'
 
 const userStore = useUserStore()
-
-const name = userStore.username
+const name = userStore.userInfo.username
 const role: string = name === 'admin' ? '超级管理员' : '普通用户'
 
 const options = {

@@ -4,7 +4,6 @@ export interface SelectOptionItem {
 }
 
 export interface UserInfo {
-  userid: number
   username: string
   password?: string
   role?: string
