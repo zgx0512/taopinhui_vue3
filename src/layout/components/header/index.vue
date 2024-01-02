@@ -1,6 +1,6 @@
 <template>
   <div class="header backdrop-blur-sm bg-white/75 dark:bg-black/75">
-    <div class="mx-4 text-lg logo">mocha Vue3 Admin</div>
+    <div class="mx-4 text-lg logo">淘品汇后台管理系统</div>
     <!-- 折叠按钮 -->
     <div class="inline-flex items-center h-full text-xl" @click="collapseChage">
       <MoIcon icon-name="ep-expand" class="text-sm" v-if="sidebar.collapse" />

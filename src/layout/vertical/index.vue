@@ -54,7 +54,7 @@ const tags = useTagsStore()
   -webkit-transition: left 0.3s ease-in-out;
   transition: margin-left 0.3s ease-in-out;
 
-  background: url(../images/bg.avif) no-repeat top center;
+  background: url(~/assets/images/bg.avif) no-repeat top center;
 
   &.content-collapse {
     margin-left: 144px;
