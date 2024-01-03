@@ -1,10 +1,7 @@
 import { createApp } from 'vue'
 
 // pinia
-import { createPinia } from 'pinia'
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
-const pinia = createPinia()
-pinia.use(piniaPluginPersistedstate)
+import pinia from '~/store/index'
 
 import App from './App.vue'
 import router from './router'
@@ -16,20 +13,21 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 
 // 自定义主题方案
 import './assets/css/theme.css'
+// i18n
+import i18n from './locales'
+// 引入路由鉴权文件
+import '~/router/permission'
+// 在 main.ts文件中设置svg-icon为全局组件
+import svgIcon from '~/components/svgIcon/index.vue'
 
 const app = createApp(App)
 
-// i18n
-import i18n from './locales'
 app.use(i18n)
-
 app.use(pinia)
 app.use(router)
 
-import '~/router/permission'
 
-// 在 main.ts文件中设置svg-icon为全局组件
-import svgIcon from '~/components/svgIcon/index.vue'
+
 app.component('svg-icon', svgIcon)
 import 'iconify-icon'
 
@@ -64,5 +62,5 @@ app.config.warnHandler = (msg, instance, trace) => {
 
 app.config.globalProperties.$globalMsg = 'hello'
 
-app.provide('$globalName', 'mocha-vue3-admin')
+app.provide('$globalName', '淘品汇后台管理系统')
 app.mount('#app')

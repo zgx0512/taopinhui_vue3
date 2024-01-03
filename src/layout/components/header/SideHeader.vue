@@ -1,3 +1,11 @@
+<!--
+ * @Author: zgx 2324461523@qq.com
+ * @Date: 2023-07-16 05:52:36
+ * @LastEditors: zgx 2324461523@qq.com
+ * @LastEditTime: 2024-01-03 16:55:15
+ * @FilePath: \taopinhui_vue3\src\layout\components\header\SideHeader.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <div
     class="flex flex-col items-center justify-between header backdrop-blur-sm bg-white/75 dark:bg-black/75"
@@ -28,11 +36,11 @@
         <span class="flex items-center cursor-pointer"> </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <a href="https://github.com/lucidity99/mocha-vue3-system" target="_blank">
+            <a href="#" target="_blank">
               <el-dropdown-item>项目仓库</el-dropdown-item>
             </a>
             <el-dropdown-item command="user">个人中心</el-dropdown-item>
-            <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
+            <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -80,12 +88,10 @@ onMounted(() => {
 
 // 用户名下拉菜单选择事件
 const router = useRouter()
-const handleCommand = (command: string) => {
-  if (command == 'loginout') {
-    userStore.userLogout()
-    router.push('/login')
-  } else if (command == 'user') {
-    router.push('/system/profile')
+const handleCommand = async (command: string) => {
+  console.log(command)
+  if (command === 'logout') {
+    console.log(1)
   }
 }
 </script>

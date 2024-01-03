@@ -1,49 +1,40 @@
-// /*
-//  * @Author: zgx 2324461523@qq.com
-//  * @Date: 2023-07-16 05:52:36
-//  * @LastEditors: zgx 2324461523@qq.com
-//  * @LastEditTime: 2023-12-29 15:42:55
-//  * @FilePath: \taopinhui_vue3\src\router\permission.ts
-//  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
-//  */
-// // import router from '~/router'
-// // import { useUserStore } from '~/store/user'
-// // import { addAsyncRoutes } from '~/utils/permission'
+import router from '~/router'
+import { useUserStore } from '~/store/user'
+import pinia from '~/store'
 
-// // // 路由白名单
-// // const whiteList = ['/login']
+// 实例化路由对象
+const userStore = useUserStore(pinia)
+// 解构出user仓库中函数跟对象
+const { userInfo, getUserInfo, userLogout } = userStore
 
-// // router.beforeEach(async (to) => {
-// //   document.title = `${to.meta.title} | mocha vue3 admin`
-
-// //   const useUser = useUserStore()
-// //   const role = useUser.role
-
-// //   // 用户已登录
-// //   if (useUser.userid) {
-// //     if (to.path === '/login') {
-// //       return '/'
-// //     }
-// //     // 前端固定路由模式，如果没有权限，进入403页面
-// //     if (
-// //       import.meta.env.VITE_PERMISSIOIN_MODE === 'CONSTANT' &&
-// //       to.meta.roles &&
-// //       !to.meta.roles.includes(role)
-// //     ) {
-// //       return '/403'
-// //     }
-// //     // 前端动态路由和后端动态路由，动态挂载路由
-// //     else {
-// //       if (!to.redirectedFrom) {
-// //         await addAsyncRoutes(router)
-
-// //         return { ...to, replace: true }
-// //       } else return true
-// //     }
-// //   } else {
-// //     // 白名单，直接放行
-// //     if (whiteList.indexOf(to.path) > -1) return true
-// //     // 非白名单，去登录
-// //     else return '/login'
-// //   }
-// // })
+router.beforeEach(async (to, from, next) => {
+  document.title = `${to.meta.title} | 淘品汇后台管理系统`
+  if (userStore.token) {
+    // 有token，已登录状态
+    if (to.path === '/login') {
+      next('/')
+    } else {
+      if (userInfo.avatar === '' && userInfo.username === '') {
+        // 头像跟名称为空，重新发送获取用户信息的请求
+        try {
+          await getUserInfo()
+          next()
+        } catch (error) {
+          // token失效了，直接退出登录
+          userLogout()
+        }
+      } else {
+        next()
+      }
+    }
+  } else {
+    // 未登录状态
+    if (to.path !== '/login') {
+      // 不是去往登录页，直接跳转到登录页
+      next('/login')
+    } else {
+      // 放行
+      next()
+    }
+  }
+})

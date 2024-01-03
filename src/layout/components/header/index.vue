@@ -48,7 +48,7 @@
                 <el-dropdown-item>项目仓库</el-dropdown-item>
               </a>
               <el-dropdown-item command="user">个人中心</el-dropdown-item>
-              <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
+              <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -99,11 +99,15 @@ onMounted(() => {
 
 // 用户名下拉菜单选择事件
 const router = useRouter()
-const handleCommand = (command: string) => {
-  if (command == 'loginout') {
-    userStore.userLogout()
-    router.push('/login')
-  } else if (command == 'user') {
+const handleCommand = async (command: string) => {
+  if (command === 'logout') {
+    try {
+      await userStore.userLogout()
+      router.push('/login')
+    } catch (error) {
+      console.log(error) 
+    }
+  } else if (command === 'user') {
     router.push('/system/profile')
   }
 }

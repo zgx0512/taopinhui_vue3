@@ -73,7 +73,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
       const result = await userStore.userLogin(param)
       if (result) {
         router.push('/')
-        // 调用获取用户信息的函数
         userStore.getUserInfo()
       }
     }
