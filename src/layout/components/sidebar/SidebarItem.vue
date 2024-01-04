@@ -1,3 +1,11 @@
+<!--
+ * @Author: zgx 2324461523@qq.com
+ * @Date: 2023-07-16 05:52:36
+ * @LastEditors: zgx 2324461523@qq.com
+ * @LastEditTime: 2024-01-04 14:48:28
+ * @FilePath: \taopinhui_vue3\src\layout\components\sidebar\SidebarItem.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <el-sub-menu
     :index="getPath(parentPath, item.path)"
@@ -6,7 +14,7 @@
     <template #title>
       <MoIcon
         :icon-name="item.meta.icon"
-        v-if="level === 0 && item.meta.icon"
+        v-if="item.meta.icon"
         class="ml-1 mr-1 text-lg"
       />
 
@@ -20,7 +28,7 @@
     />
   </el-sub-menu>
   <el-menu-item :index="getPath(parentPath, item.path)" v-else>
-    <MoIcon :icon-name="item.meta.icon" v-if="level === 0" class="ml-1 mr-1 text-lg" />
+    <MoIcon :icon-name="item.meta.icon" class="ml-1 mr-1 text-lg" />
     <template #title>{{ $t(`route.${item.meta.title}`) }}</template>
   </el-menu-item>
 </template>

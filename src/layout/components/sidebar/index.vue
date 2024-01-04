@@ -25,8 +25,6 @@ let items = <RouteRecordRaw[]>[]
 
 if (import.meta.env.VITE_PERMISSION_MODE === 'CONSTANT') {
   items = router.options.routes.filter((r) => !r.hidden)
-} else {
-  items = useUser.menuRoutes
 }
 
 items = items.sort(

@@ -8,7 +8,7 @@ const routes: RouteRecordRaw[] = [
     component: Layout,
     redirect: '/dashboard/workbench',
     meta: {
-      title: 'dashboard',
+      title: '仪表盘',
       icon: 'ep-sunrise',
       order: 1
     },
@@ -18,7 +18,7 @@ const routes: RouteRecordRaw[] = [
         path: 'workbench',
         name: 'workbench',
         meta: {
-          title: 'workbench'
+          title: '工作台'
         },
         component: () => import('~/views/dashboard/Workbench.vue')
       },
@@ -26,7 +26,7 @@ const routes: RouteRecordRaw[] = [
         path: 'analysis',
         name: 'analysis',
         meta: {
-          title: 'analysis'
+          title: '分析'
         },
         component: () => import('~/views/dashboard/Analysis.vue')
       }
