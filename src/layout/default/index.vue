@@ -1,3 +1,11 @@
+<!--
+ * @Author: zgx 2324461523@qq.com
+ * @Date: 2023-07-16 05:52:36
+ * @LastEditors: zgx 2324461523@qq.com
+ * @LastEditTime: 2024-01-05 19:53:35
+ * @FilePath: \taopinhui_vue3\src\layout\default\index.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <v-header :class="{ 'header-collapse': sidebar.collapse }" />
   <v-tags :class="{ 'tag-collapse': sidebar.collapse }"></v-tags>
@@ -56,6 +64,7 @@ const tags = useTagsStore()
   position: relative;
   margin-left: 200px;
   padding-top: 90px;
+  height: 100vh;
 
   -webkit-transition: left 0.3s ease-in-out;
   transition: margin-left 0.3s ease-in-out;
@@ -78,5 +87,6 @@ const tags = useTagsStore()
 
 .container {
   padding: 10px;
+  height: 100%;
 }
 </style>
