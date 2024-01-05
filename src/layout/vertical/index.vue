@@ -71,6 +71,6 @@ const tags = useTagsStore()
 }
 
 .container {
-  margin: 16px;
+  margin: 10px;
 }
 </style>

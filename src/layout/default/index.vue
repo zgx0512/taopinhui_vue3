@@ -77,6 +77,6 @@ const tags = useTagsStore()
 }
 
 .container {
-  padding: 16px;
+  padding: 10px;
 }
 </style>

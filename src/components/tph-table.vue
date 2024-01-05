@@ -1,5 +1,11 @@
 <template>
-  <el-table :data="props.tableData" border style="margin: 10px 0;">
+  <el-table
+    :data="props.tableData"
+    border
+    style="margin: 10px 0"
+    max-height="280"
+    @selection-change="selectionChange"
+  >
     <el-table-column type="selection" width="55" v-if="props.tableProp.isSelect" align="center" />
     <el-table-column
       type="index"
@@ -17,13 +23,15 @@
       align="center"
       show-overflow-tooltip
     >
-      <slot v-if="item.label === '操作'"></slot>
+      <template #default="{row}">
+        <slot v-if="item.label === '操作'" :row="row"></slot>
+      </template>
     </el-table-column>
   </el-table>
 </template>
 
 <script lang="ts" setup>
-import { defineProps, withDefaults } from 'vue'
+import { defineProps, withDefaults, defineEmits } from 'vue'
 const props = withDefaults(
   defineProps<{
     tableHeadList: {
@@ -44,6 +52,13 @@ const props = withDefaults(
     })
   }
 )
+const emits = defineEmits(['selectionChange'])
+// 复选框发生改变时的回调
+const selectionChange = (selection: any) => {
+  // map数组，将id筛选出来
+  const idList = selection.map((item: any) => item.id)
+  emits('selectionChange', idList)
+}
 </script>
 
 <style lang="" scoped></style>

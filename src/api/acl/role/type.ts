@@ -30,3 +30,9 @@ export interface roleInfoResponseType extends responseType {
     pages: number
   }
 }
+
+// 分配权限参数的ts类型
+export interface permissionVoReponseType {
+  permissionIdList: number[]
+  roleId: number
+}
