@@ -111,6 +111,11 @@ const tableProp = {
 // 角色表格的表头
 const tableHeadList = [
   {
+    label: 'ID',
+    property: 'id',
+    width: '80'
+  },
+  {
     label: '角色名称',
     property: 'roleName',
     width: '120'
