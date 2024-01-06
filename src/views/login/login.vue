@@ -30,7 +30,9 @@
             <el-link>忘记密码？</el-link>
           </div>
           <div>
-            <el-button class="w-full" type="primary" @click="submitForm(login)">登录</el-button>
+            <el-button class="w-full" type="primary" @click="submitForm(login)" :loading="loading"
+              >登录</el-button
+            >
           </div>
         </el-form>
       </div>
@@ -44,7 +46,7 @@ import { useTagsStore } from '../../store/tags'
 import { useUserStore } from '~/store/user'
 import { useRouter } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
-import { Lock, User } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
 import { UserInfo } from '~/types/index'
 
 const router = useRouter()
@@ -52,7 +54,8 @@ const param: UserInfo = reactive({
   username: 'admin',
   password: 'atguigu123'
 })
-
+// 登录按钮加载效果
+const loading = ref<boolean>(false)
 const rules: FormRules = {
   username: [
     {
@@ -70,10 +73,23 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate(async (valid: boolean) => {
     if (valid) {
+      loading.value = true
       const result = await userStore.userLogin(param)
       if (result) {
+        ElMessage({
+          type: 'success',
+          message: '登录成功'
+        })
+        loading.value = false
         router.push('/')
         userStore.getUserInfo()
+      } else {
+        ElMessage({
+          type: 'error',
+          message: '登录失败'
+  
+        })
+        loading.value = false
       }
     }
   })
