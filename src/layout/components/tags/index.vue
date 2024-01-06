@@ -17,19 +17,6 @@
         </li>
       </ul>
     </el-scrollbar>
-
-    <div
-      class="fixed flex flex-col px-2 py-1 text-xs leading-8 text-center bg-white rounded shadow-lg"
-      :style="{ left: `${contextmenuPositon.left}px`, top: `${contextmenuPositon.top}px` }"
-      v-show="contextmenuShow"
-    >
-      <div @click="closeOther">
-        <el-button :icon="Close" link size="small">关闭其他页签</el-button>
-      </div>
-      <div class="cursor-default" @click="closeAll">
-        <el-button :icon="Minus" link size="small">关闭所有页签</el-button>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -65,7 +52,7 @@ function openContext(e: Event, index: number) {
 
   contextmenuPositon.value = {
     top: top - 38,
-    left: left + e?.target?.clientWidth - (siderbarStore.collapse ? 64 : 200) - 84
+    left: left + (e.target as HTMLElement).clientWidth - (siderbarStore.collapse ? 64 : 200) - 84
   }
 }
 
@@ -95,6 +82,7 @@ function removeTag(e: string) {
   if (item) {
     router.push(item.path)
   } else {
+    tags.setTagsItem({ name: 'workbench', path: '/dashboard/workbench', title: '工作台' })
     router.push('/')
   }
 }
@@ -120,26 +108,6 @@ watch(route, (newVal) => {
   setTags(route)
 })
 
-// onBeforeRouteUpdate((to) => {
-//   console.log(to, 111)
-//   setTags(to)
-// })
-
-// 关闭全部标签
-const closeAll = async () => {
-  tags.clearTags()
-
-  await router.push('/')
-
-  setTags(route)
-}
-// 关闭其他标签
-const closeOther = () => {
-  const curItem = tags.list.filter((item) => {
-    return item.path === route.fullPath
-  })
-  tags.closeTagsOther(curItem)
-}
 </script>
 
 <style lang="scss">
