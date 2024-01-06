@@ -22,8 +22,9 @@
       :width="item.width"
       align="center"
       show-overflow-tooltip
+      :fixed="item.label === '操作' ? 'right' : false"
     >
-      <template #default="{row}">
+      <template #default="{ row }">
         <slot v-if="item.label === '操作'" :row="row"></slot>
       </template>
     </el-table-column>
