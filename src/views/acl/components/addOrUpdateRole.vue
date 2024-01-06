@@ -2,7 +2,7 @@
  * @Author: zgx 2324461523@qq.com
  * @Date: 2024-01-05 16:33:16
  * @LastEditors: zgx 2324461523@qq.com
- * @LastEditTime: 2024-01-05 17:38:19
+ * @LastEditTime: 2024-01-06 22:16:54
  * @FilePath: \taopinhui_vue3\src\views\acl\components\addOrUpdateRole.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -63,31 +63,38 @@ const cancel = () => {
 // 确认按钮加载效果
 const loading = ref<boolean>(false)
 // 确认按钮的回调
-const submit = async () => {
-  loading.value = true
-  try {
-    // 发送请求，添加|修改角色
-    await reqAddOrUpdateRole(roleForm.value)
-    // 成功，提示用户
-    ElMessage({
-      type: 'success',
-      message: '保存成功'
-    })
-    // 关闭对话框
-    emits('submitAddOrUpdate')
-    // 关闭加载效果
-    loading.value = false
-    // 重新获取用户列表数据
-    emits('getRoleInfo', roleForm.value.id)
-  } catch (error) {
-    // 失败的提示信息
-    ElMessage({
-      type: 'error',
-      message: '保存失败'
-    })
-    // 关闭加载效果
-    loading.value = false
-  }
+const submit = () => {
+  if (!roleFormRef.value) return
+  roleFormRef.value.validate(async (valid: boolean) => {
+    if (valid) {
+      loading.value = true
+      try {
+        // 发送请求，添加|修改角色
+        await reqAddOrUpdateRole(roleForm.value)
+        // 成功，提示用户
+        ElMessage({
+          type: 'success',
+          message: '保存成功'
+        })
+        // 关闭对话框
+        emits('submitAddOrUpdate')
+        // 关闭加载效果
+        loading.value = false
+        // 重新获取用户列表数据
+        emits('getRoleInfo', roleForm.value.id)
+      } catch (error) {
+        // 失败的提示信息
+        ElMessage({
+          type: 'error',
+          message: '保存失败'
+        })
+        // 关闭加载效果
+        loading.value = false
+      }
+    } else {
+      console.log('error submit!')
+    }
+  })
 }
 // 打开对话框，赋值
 const open = (row: roleResponseType, titleName: string) => {
