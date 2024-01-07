@@ -4,6 +4,11 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 // 引入token操作文件
 import { getToken } from '../token'
+// 引入进度条插件
+import nprogress from 'nprogress'
+import 'nprogress/nprogress.css'
+// 关闭右侧圆圈效果
+nprogress.configure({ showSpinner: false })
 // 创建axios的示例
 const request = axios.create({
   // 基础路径
@@ -13,6 +18,7 @@ const request = axios.create({
 })
 // 请求拦截器
 request.interceptors.request.use((config) => {
+  nprogress.start()
   config.headers = config.headers || {}
   if (getToken()) {
     config.headers.token = getToken() as string
@@ -22,9 +28,11 @@ request.interceptors.request.use((config) => {
 // 响应拦截器
 request.interceptors.response.use(
   (res) => {
+    nprogress.done()
     return res.data
   },
   (error) => {
+    nprogress.done()
     // 处理网络错误
     let msg = ''
     const status = error.response.status
