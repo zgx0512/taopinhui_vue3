@@ -9,6 +9,7 @@
           placeholder="请选择"
           v-model="categoryIds.category1Id"
           @change="category1IdChange"
+          :disabled="props.disabled"
         >
           <el-option
             :label="category1.name"
@@ -23,6 +24,7 @@
           placeholder="请选择"
           v-model="categoryIds.category2Id"
           @change="category2IdChange"
+          :disabled="props.disabled"
         >
           <el-option
             :label="category2.name"
@@ -33,7 +35,11 @@
         </el-select>
       </el-form-item>
       <el-form-item label="三级分类">
-        <el-select placeholder="请选择" v-model="categoryIds.category3Id">
+        <el-select
+          placeholder="请选择"
+          v-model="categoryIds.category3Id"
+          :disabled="props.disabled"
+        >
           <el-option
             :label="category3.name"
             :value="category3.id"
@@ -47,11 +53,19 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, defineEmits, watch } from 'vue'
+import { ref, onMounted, defineEmits, watch, defineProps, withDefaults } from 'vue'
 import { reqCategory1Info, reqCategory2Info, reqCategory3Info } from '~/api/product/category'
 // 引入ts类型
 import { categoryResponseType } from '~/api/product/category/type'
 const emits = defineEmits(['initCategory'])
+const props = withDefaults(
+  defineProps<{
+    disabled?: boolean
+  }>(),
+  {
+    disabled: false
+  }
+)
 // 选出来的分类id
 const categoryIds = ref({
   category1Id: '',
