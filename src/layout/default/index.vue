@@ -2,7 +2,7 @@
  * @Author: zgx 2324461523@qq.com
  * @Date: 2023-07-16 05:52:36
  * @LastEditors: zgx 2324461523@qq.com
- * @LastEditTime: 2024-01-05 19:53:35
+ * @LastEditTime: 2024-01-07 15:12:10
  * @FilePath: \taopinhui_vue3\src\layout\default\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -50,7 +50,7 @@ const tags = useTagsStore()
   > :deep(.el-menu) {
     position: fixed;
     margin-top: 60px;
-    width: 200px;
+    width: 220px;
     border-right: 0 none;
     height: calc(100vh - 60px);
     overflow-y: auto;
@@ -62,7 +62,7 @@ const tags = useTagsStore()
 
 .main-content {
   position: relative;
-  margin-left: 200px;
+  margin-left: 220px;
   padding-top: 90px;
   height: 100vh;
 

@@ -10,10 +10,6 @@
     "仪表盘": "仪表盘",
     "分析": "分析",
     "工作台": "工作台",
-    "feats": "功能",
-    "download": "下载",
-    "previewPDF": "预览PDF",
-    "GSAP": "GSAP动画",
     "customDirectives": "自定义指令",
     "adaptiveHeight": "自适应高度",
     "watermark": "水印指令",
@@ -49,15 +45,12 @@
     "codemirror": "Codemirror",
     "chart": "图表",
     "eChart": "eChart",
-    "level": "多级菜单",
-    "menu1": "Menu 1",
-    "menu11": "Menu 1-1",
-    "menu2": "Menu 2",
-    "menu21": "Menu 2-1",
-    "menu211": "Menu 2-1-1",
     "about": "关于",
-    "demo": "示例",
-    "jsx": "jsx",
-    "provideAndInject": "依赖注入"
+    "provideAndInject": "依赖注入",
+    "商品管理": "商品管理",
+    "SPU管理": "SPU管理",
+    "SKU管理": "SKU管理",
+    "品牌管理": "品牌管理",
+    "属性管理": "属性管理"
   }
 }

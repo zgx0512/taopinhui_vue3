@@ -115,7 +115,7 @@ watch(route, (newVal) => {
   position: fixed;
   top: 60px;
   z-index: 1001;
-  left: 200px;
+  left: 220px;
   right: 0;
   height: 30px;
   transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
