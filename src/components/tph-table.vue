@@ -9,8 +9,8 @@
     <el-table-column type="selection" width="55" v-if="props.tableProp.isSelect" align="center" />
     <el-table-column
       type="index"
-      label="#"
-      width="55"
+      :label="props.tableProp.isAttr ? '序号' : '#'"
+      :width="props.tableProp.isAttr ? '80' : '55'"
       align="center"
       v-if="props.tableProp.index"
     ></el-table-column>
@@ -42,14 +42,16 @@ const props = withDefaults(
     }[]
     tableData: never[]
     tableProp: {
-      isSelect: boolean
-      index: boolean
+      isSelect?: boolean
+      index?: boolean
+      isAttr?: boolean
     }
   }>(),
   {
     tableProp: () => ({
       isSelect: false,
-      index: false
+      index: false,
+      isAttr: false
     })
   }
 )
