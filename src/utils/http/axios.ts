@@ -35,7 +35,10 @@ request.interceptors.response.use(
     nprogress.done()
     // 处理网络错误
     let msg = ''
-    const status = error.response.status
+    const status = 0
+    if (error.response) {
+      status = error.resopnse.status
+    }
     switch (status) {
       case 401:
         msg = 'token过期'
@@ -48,6 +51,9 @@ request.interceptors.response.use(
         break
       case 500:
         msg = '服务器出现问题'
+        break
+      case 0: 
+        msg = '没有数据'
         break
       default:
         msg = '无网络'

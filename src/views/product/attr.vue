@@ -35,7 +35,11 @@
               size="small"
               @click="addOrUpdateAttr(row)"
             ></el-button>
-            <el-popconfirm :title="`确定删除${row.attrName}?`" @confirm="removeAttr(row.id)" width="180">
+            <el-popconfirm
+              :title="`确定删除${row.attrName}?`"
+              @confirm="removeAttr(row.id)"
+              width="180"
+            >
               <template #reference>
                 <el-button type="danger" icon="Delete" size="small"></el-button>
               </template>
@@ -85,9 +89,14 @@ const addOrUpdateAttrRef = ref()
 const getAttrInfo = async () => {
   // 开启加载效果
   loading.value = true
-  const result = await reqAttrInfo(category1Id.value, category2Id.value, category3Id.value)
-  if (result.code === 200) {
-    attrInfo.value = result.data
+  try {
+    const result = await reqAttrInfo(category1Id.value, category2Id.value, category3Id.value)
+    if (result.code === 200) {
+      attrInfo.value = result.data
+    }
+    // 关闭加载效果
+    loading.value = false
+  } catch (error) {
     // 关闭加载效果
     loading.value = false
   }

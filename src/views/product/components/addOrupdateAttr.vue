@@ -114,7 +114,7 @@ const open = (row: attrReponseType, id: number | string) => {
   baseAttrInfo.value.categoryId = id
   if (row.id) {
     // 是编辑
-    baseAttrInfo.value = row
+    baseAttrInfo.value = JSON.parse(JSON.stringify(row))
   }
 }
 // 取消按钮的回调
