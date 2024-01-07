@@ -61,8 +61,10 @@ const open = (row: userResponseType) => {
   // 打开抽屉
   addOrUpdateUserDrawer.value = true
   if (row.id) {
+    title.value = '修改用户'
     formData.value = JSON.parse(JSON.stringify(row))
   } else {
+    title.value = '添加用户'
     // 清空表单数据
     formData.value = {
       id: '',
