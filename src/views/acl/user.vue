@@ -23,7 +23,7 @@
         >批量删除</el-button
       >
       <tph-table
-        :data="tableData"
+        :tableData="tableData"
         :tableHeadList="tableHeadList"
         :tableProp="tableProp"
         v-loading="loading"
@@ -107,7 +107,6 @@ import { ElMessageBox } from 'element-plus'
 import addOrUpdateUser from './components/addOrUpdateUser.vue'
 // 引入ts类型
 import { userResponseType, roleResponseType } from '~/api/acl/user/type'
-import { fa } from 'element-plus/es/locale'
 const username = ref<string>('')
 const tableData = ref<userResponseType[]>([])
 // 表头
