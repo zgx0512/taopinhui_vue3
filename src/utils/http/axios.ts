@@ -35,7 +35,7 @@ request.interceptors.response.use(
     nprogress.done()
     // 处理网络错误
     let msg = ''
-    const status = 0
+    let status = 0
     if (error.response) {
       status = error.resopnse.status
     }
