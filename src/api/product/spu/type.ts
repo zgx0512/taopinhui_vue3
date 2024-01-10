@@ -107,7 +107,7 @@ export interface skuResponseType {
   id?: number | string
   creatTime?: string
   updateTime?: string
-  spuId?: number | string
+  spuId: number | string
   price?: number | string
   skuName: string
   skuDesc?: string

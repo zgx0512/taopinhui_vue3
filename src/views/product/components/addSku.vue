@@ -107,6 +107,7 @@ const category2Id = ref<number | string>('')
 const category3Id = ref<number | string>('')
 // 表单数据对象
 const skuInfoForm = ref<skuResponseType>({
+  spuId: '',   // spuId
   category3Id: '', // 三级分类id
   skuName: '', // sku名称
   price: '', // 价格
@@ -168,6 +169,7 @@ const open = (
   getSpuImageList(id)
   // 每次打开卡片，都清空上一次的数据
   skuInfoForm.value = {
+    spuId: id,
     category3Id: '', // 三级分类id
     skuName: '', // sku名称
     price: '', // 价格
