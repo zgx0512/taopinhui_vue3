@@ -17,7 +17,7 @@
       <el-button type="primary" icon="Plus" :disabled="!category3Id" @click="open"
         >添加SPU</el-button
       >
-      <tph-table :tableData="spuList" :tableHeadList="tableHeadList" :tableProp="tableProp">
+      <tph-table :tableData="spuList" :tableHeadList="tableHeadList" :tableProp="tableProp" v-loading="loading">
         <template #default="{ row }">
           <el-button
             type="success"
@@ -40,7 +40,15 @@
             title="查看sku"
             @click="openSku(row)"
           ></el-button>
-          <el-button type="danger" icon="Delete" size="small" title="删除spu"></el-button>
+          <el-popconfirm
+            :title="`确定删除${row.spuName}?`"
+            width="180"
+            @confirm="removeSpu(row.id)"
+          >
+            <template #reference>
+              <el-button type="danger" icon="Delete" size="small" title="删除spu"></el-button>
+            </template>
+          </el-popconfirm>
         </template>
       </tph-table>
       <!-- 分页器 -->
@@ -75,13 +83,14 @@
 import category from '~/components/category.vue'
 import { ref, nextTick } from 'vue'
 // 引入接口函数
-import { reqSpuInfo } from '~/api/product/spu'
+import { reqSpuInfo, reqRemoveSpu } from '~/api/product/spu'
 // 引入子组件
 import addOrUpdateSpu from './components/addOrUpdateSpu.vue'
 import addSku from './components/addSku.vue'
 import skuInfo from './components/skuInfo.vue'
 // 引入ts类型
 import { spuResponseType } from '~/api/product/spu/type'
+import { ElMessage } from 'element-plus'
 // spu数据列表
 const spuList = ref<spuResponseType[]>([])
 // 一级分类id
@@ -121,6 +130,8 @@ const tableHeadList = [
     label: '操作'
   }
 ]
+// 表格加载效果
+const loading = ref<boolean>(false)
 // 当前页
 const page = ref<number>(1)
 // 每页条数
@@ -133,10 +144,14 @@ const showSpuData = ref<number>(0) // 0: 展示数据卡片   1: 添加|编辑�
 const addOrUpdateSpuRef = ref()
 // 获取spu数据的函数
 const getSpuList = async () => {
+  // 开启加载效果
+  loading.value = true
   const result = await reqSpuInfo(page.value, limit.value, category3Id.value)
   if (result.code === 200) {
     spuList.value = result.data.records
     total.value = result.data.total
+    // 关闭加载效果
+    loading.value = false
   }
 }
 // 获取子组件传递过来的分类id
@@ -194,7 +209,25 @@ const openSku = (row: spuResponseType) => {
     skuInfoRef.value.open(row)
   })
 }
-
+// 删除spu按钮的回调
+const removeSpu = async (id: number | string) => {
+  //  调用接口
+  const result = await reqRemoveSpu(id)
+  if (result.code === 200) {
+    // 删除成功，提示用户
+    ElMessage.success('删除成功')
+    // 判断删除的是否是当前页的最后一项
+    if (spuList.value.length <= 1) {
+      // 是，删除后要往前一页
+      page.value = page.value - 1
+    }
+    // 重新获取spu列表
+    getSpuList()
+  } else {
+    // 删除失败
+    ElMessage.error('删除失败')
+  }
+}
 </script>
 
 <style lang="" scoped></style>

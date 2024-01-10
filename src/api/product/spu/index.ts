@@ -18,7 +18,8 @@ enum API {
   SPUIMAGELIST_URL = '/admin/product/spuImageList/',
   SPUSALEATTRLIST_URL = '/admin/product/spuSaleAttrList/',
   ADDSKU_URL = '/admin/product/saveSkuInfo',
-  FINDBYSPUID_URL = '/admin/product/findBySpuId/'
+  FINDBYSPUID_URL = '/admin/product/findBySpuId/',
+  REMOVESPU_URL = '/admin/product/deleteSpu/'
 }
 
 // 获取spu数据的接口
@@ -66,4 +67,9 @@ export const reqAddSkuInfo = (data: any) => {
 // 根据spuId查找对应的sku列表
 export const reqSkuListBySpuId = (id: number | string) => {
   return request.get<skuListResponseType, any>(API.FINDBYSPUID_URL + id)
+}
+
+// 删除spu的接口
+export const reqRemoveSpu = (id: number | string) => {
+  return request.delete<nullResponseType, any>(API.REMOVESPU_URL + id)
 }
