@@ -46,6 +46,7 @@ export interface imageResponseType {
     imgUrl?: string
     spuId?: number | string
     upadteTime?: string
+    default?: boolean
 }
 
 // 每个spu的ts类型
@@ -94,4 +95,9 @@ export interface saleAttrInfoResponseType extends responseType {
 // 新增|修改|删除SPU的接口返回值的ts类型
 export interface nullResponseType extends responseType {
     data: null
+}
+
+// 获取spu图片接口返回值的ts类型
+export interface spuImageListResponseType extends responseType {
+  data: imageResponseType[]
 }

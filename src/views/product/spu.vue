@@ -2,7 +2,7 @@
  * @Author: zgx 2324461523@qq.com
  * @Date: 2024-01-07 12:38:09
  * @LastEditors: zgx 2324461523@qq.com
- * @LastEditTime: 2024-01-09 22:32:43
+ * @LastEditTime: 2024-01-10 17:01:25
  * @FilePath: \taopinhui_vue3\src\views\product\spu.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -19,8 +19,20 @@
       >
       <tph-table :tableData="spuList" :tableHeadList="tableHeadList" :tableProp="tableProp">
         <template #default="{ row }">
-          <el-button type="success" icon="Plus" size="small" title="添加sku"></el-button>
-          <el-button type="warning" icon="EditPen" size="small" title="修改spu" @click="open(row)"></el-button>
+          <el-button
+            type="success"
+            icon="Plus"
+            size="small"
+            title="添加sku"
+            @click="addSkuBtn(row.id)"
+          ></el-button>
+          <el-button
+            type="warning"
+            icon="EditPen"
+            size="small"
+            title="修改spu"
+            @click="open(row)"
+          ></el-button>
           <el-button type="info" icon="InfoFilled" size="small" title="查看sku"></el-button>
           <el-button type="danger" icon="Delete" size="small" title="删除spu"></el-button>
         </template>
@@ -45,6 +57,8 @@
       @submit="submit"
       ref="addOrUpdateSpuRef"
     ></addOrUpdateSpu>
+    <!-- 添加Sku卡片 -->
+    <addSku v-if="showSpuData === 2" ref="addSkuRef" @cancel="cancel" @submit="submit"></addSku>
   </div>
 </template>
 
@@ -56,6 +70,7 @@ import { ref, nextTick } from 'vue'
 import { reqSpuInfo } from '~/api/product/spu'
 // 引入子组件
 import addOrUpdateSpu from './components/addOrUpdateSpu.vue'
+import addSku from './components/addSku.vue'
 // 引入ts类型
 import { spuResponseType } from '~/api/product/spu/type'
 // spu数据列表
@@ -151,6 +166,15 @@ const submit = (id: number | string) => {
   getSpuList()
   // 切换卡片
   showSpuData.value = 0
+}
+// 添加sku组件的ref对象
+const addSkuRef = ref()
+// 添加sku按钮的回调
+const addSkuBtn = (id: number | string) => {
+  showSpuData.value = 2
+  nextTick(() => {
+    addSkuRef.value?.open(id, category1Id.value, category2Id.value, category3Id.value)
+  })
 }
 </script>
 
