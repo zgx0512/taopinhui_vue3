@@ -2,14 +2,156 @@
  * @Author: zgx 2324461523@qq.com
  * @Date: 2024-01-07 12:38:09
  * @LastEditors: zgx 2324461523@qq.com
- * @LastEditTime: 2024-01-07 12:41:05
+ * @LastEditTime: 2024-01-09 22:32:43
  * @FilePath: \taopinhui_vue3\src\views\product\spu.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <div class="container">spu</div>
+  <div class="container">
+    <!-- 分类选择卡片 -->
+    <el-card style="margin-bottom: 10px">
+      <category @initCategory="initCategory" :disabled="showSpuData !== 0"></category>
+    </el-card>
+    <!-- 展示spu数据卡片 -->
+    <el-card v-if="showSpuData === 0">
+      <el-button type="primary" icon="Plus" :disabled="!category3Id" @click="open"
+        >添加SPU</el-button
+      >
+      <tph-table :tableData="spuList" :tableHeadList="tableHeadList" :tableProp="tableProp">
+        <template #default="{ row }">
+          <el-button type="success" icon="Plus" size="small" title="添加sku"></el-button>
+          <el-button type="warning" icon="EditPen" size="small" title="修改spu" @click="open(row)"></el-button>
+          <el-button type="info" icon="InfoFilled" size="small" title="查看sku"></el-button>
+          <el-button type="danger" icon="Delete" size="small" title="删除spu"></el-button>
+        </template>
+      </tph-table>
+      <!-- 分页器 -->
+      <el-pagination
+        v-model:current-page="page"
+        v-model:page-size="limit"
+        :page-sizes="[3, 5, 10, 20]"
+        :small="true"
+        :background="true"
+        layout="prev, pager, next, jumper, ->, sizes, total"
+        :total="total"
+        @size-change="getSpuList()"
+        @current-change="getSpuList()"
+      />
+    </el-card>
+    <!-- 添加|修改SPU卡片 -->
+    <addOrUpdateSpu
+      v-if="showSpuData === 1"
+      @cancel="cancel"
+      @submit="submit"
+      ref="addOrUpdateSpuRef"
+    ></addOrUpdateSpu>
+  </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+// 引入分类选择组件
+import category from '~/components/category.vue'
+import { ref, nextTick } from 'vue'
+// 引入接口函数
+import { reqSpuInfo } from '~/api/product/spu'
+// 引入子组件
+import addOrUpdateSpu from './components/addOrUpdateSpu.vue'
+// 引入ts类型
+import { spuResponseType } from '~/api/product/spu/type'
+// spu数据列表
+const spuList = ref<spuResponseType[]>([])
+// 一级分类id
+const category1Id = ref<number | string>('')
+// 二级分类id
+const category2Id = ref<number | string>('')
+// 三级分类id
+const category3Id = ref<number | string>('')
+// spu表格基本属性
+const tableProp = {
+  index: true,
+  isZh: true
+}
+// spu表格的表头列表
+const tableHeadList = [
+  {
+    label: 'SPU名称',
+    property: 'spuName',
+    width: '100'
+  },
+  {
+    label: 'SPU描述',
+    property: 'description',
+    width: '180'
+  },
+  {
+    label: '创建时间',
+    property: 'createTime',
+    width: '180'
+  },
+  {
+    label: '更新时间',
+    property: 'updateTime',
+    width: '180'
+  },
+  {
+    label: '操作'
+  }
+]
+// 当前页
+const page = ref<number>(1)
+// 每页条数
+const limit = ref<number>(5)
+// 总数
+const total = ref<number>(0)
+// 控制显示哪个卡片
+const showSpuData = ref<number>(0) // 0: 展示数据卡片   1: 添加|编辑卡片  2: 添加sku卡片
+// 添加|编辑卡片的ref对象
+const addOrUpdateSpuRef = ref()
+// 获取spu数据的函数
+const getSpuList = async () => {
+  const result = await reqSpuInfo(page.value, limit.value, category3Id.value)
+  if (result.code === 200) {
+    spuList.value = result.data.records
+    total.value = result.data.total
+  }
+}
+// 获取子组件传递过来的分类id
+const initCategory = (ids: any) => {
+  // 赋值
+  category1Id.value = ids.category1Id
+  category2Id.value = ids.category2Id
+  category3Id.value = ids.category3Id
+  // 判断三级分类id是否为空
+  if (category3Id.value) {
+    // 不为空，调用接口函数，发送请求
+    getSpuList()
+  } else {
+    // 为空，清空spu列表
+    spuList.value = []
+  }
+}
+// 子组件的取消按钮的回调
+const cancel = () => {
+  showSpuData.value = 0
+}
+// 添加|修改spu按钮的回调
+const open = (row: spuResponseType) => {
+  showSpuData.value = 1
+  nextTick(() => {
+    addOrUpdateSpuRef.value?.open(row, category3Id.value)
+  })
+}
+// 子组件保存成功的回调
+const submit = (id: number | string) => {
+  if (!id) {
+    // id不存在，是新增，回到第一页
+    page.value = 1
+  }
+  // 重新获取数据
+  getSpuList()
+  // 切换卡片
+  showSpuData.value = 0
+}
+</script>
 
 <style lang="" scoped></style>

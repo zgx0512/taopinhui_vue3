@@ -1,6 +1,11 @@
 import request from '~/utils/http/axios'
 // 引入ts类型
-import type { tmInforResponseType, tmResponseType, tmListResponseType } from './type'
+import type {
+  tmInforResponseType,
+  tmResponseType,
+  tmListResponseType,
+  removeTmResponseType
+} from './type'
 
 enum API {
   TRADEMARKINFO_URL = '/admin/product/baseTrademark/',

@@ -71,3 +71,14 @@ export const tmLogoValidatePass = (rule: any, value: any, callback: any, imageUr
     callback(new Error('品牌LOGO不能为空'))
   }
 }
+
+// 照片墙自定义校验规则
+export const imageListValidatePass = (rule: any, value: any, callback: any, len: number) => {
+  if (len > 0) {
+    // 放行
+    callback()
+  } else {
+    // 提示用户
+    callback(new Error('SPU图片不能为空'))
+  }
+}
