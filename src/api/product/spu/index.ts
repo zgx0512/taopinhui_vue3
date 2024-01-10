@@ -5,7 +5,8 @@ import {
   saleAttrInfoResponseType,
   spuResponseType,
   nullResponseType,
-  spuImageListResponseType
+  spuImageListResponseType,
+  skuListResponseType
 } from './type'
 
 enum API {
@@ -16,7 +17,8 @@ enum API {
   GETSPUINFO_URL = '/admin/product/getSpuInfo/',
   SPUIMAGELIST_URL = '/admin/product/spuImageList/',
   SPUSALEATTRLIST_URL = '/admin/product/spuSaleAttrList/',
-  ADDSKU_URL = '/admin/product/saveSkuInfo'
+  ADDSKU_URL = '/admin/product/saveSkuInfo',
+  FINDBYSPUID_URL = '/admin/product/findBySpuId/'
 }
 
 // 获取spu数据的接口
@@ -59,4 +61,9 @@ export const reqSpuSaleAttrList = (id: number | string) => {
 // 新增sku的接口
 export const reqAddSkuInfo = (data: any) => {
   return request.post<nullResponseType, any>(API.ADDSKU_URL, data)
+}
+
+// 根据spuId查找对应的sku列表
+export const reqSkuListBySpuId = (id: number | string) => {
+  return request.get<skuListResponseType, any>(API.FINDBYSPUID_URL + id)
 }

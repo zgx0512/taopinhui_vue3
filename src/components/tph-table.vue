@@ -25,7 +25,7 @@
       :fixed="item.label === '操作' ? 'right' : false"
     >
       <template #default="{ row }">
-        <slot v-if="item.label === '操作'" :row="row"></slot>
+        <slot v-if="item.label === '操作' || item.label === '默认图片'" :row="row"></slot>
       </template>
     </el-table-column>
   </el-table>

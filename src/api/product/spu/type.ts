@@ -101,3 +101,27 @@ export interface nullResponseType extends responseType {
 export interface spuImageListResponseType extends responseType {
   data: imageResponseType[]
 }
+
+// 每个sku的ts类型
+export interface skuResponseType {
+  id?: number | string
+  creatTime?: string
+  updateTime?: string
+  spuId?: number | string
+  price?: number | string
+  skuName: string
+  skuDesc?: string
+  weight?: string
+  tmId?: number | string
+  category3Id?: number | string
+  skuDefaultImg?: string
+  isSale?: number
+  skuImageList?: imageResponseType[] | null
+  skuAttrValueList?: [] |null
+  skuSaleAttrValueList?: [] | null
+}
+
+// 根据spuId获取sku列表接口返回值的ts类型
+export interface skuListResponseType extends responseType {
+  data: skuResponseType[]
+}

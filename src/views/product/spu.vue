@@ -2,7 +2,7 @@
  * @Author: zgx 2324461523@qq.com
  * @Date: 2024-01-07 12:38:09
  * @LastEditors: zgx 2324461523@qq.com
- * @LastEditTime: 2024-01-10 17:01:25
+ * @LastEditTime: 2024-01-10 22:21:26
  * @FilePath: \taopinhui_vue3\src\views\product\spu.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -33,7 +33,13 @@
             title="修改spu"
             @click="open(row)"
           ></el-button>
-          <el-button type="info" icon="InfoFilled" size="small" title="查看sku"></el-button>
+          <el-button
+            type="info"
+            icon="InfoFilled"
+            size="small"
+            title="查看sku"
+            @click="openSku(row)"
+          ></el-button>
           <el-button type="danger" icon="Delete" size="small" title="删除spu"></el-button>
         </template>
       </tph-table>
@@ -59,6 +65,8 @@
     ></addOrUpdateSpu>
     <!-- 添加Sku卡片 -->
     <addSku v-if="showSpuData === 2" ref="addSkuRef" @cancel="cancel" @submit="submit"></addSku>
+    <!-- 查看sku对话框 -->
+    <skuInfo ref="skuInfoRef"></skuInfo>
   </div>
 </template>
 
@@ -71,6 +79,7 @@ import { reqSpuInfo } from '~/api/product/spu'
 // 引入子组件
 import addOrUpdateSpu from './components/addOrUpdateSpu.vue'
 import addSku from './components/addSku.vue'
+import skuInfo from './components/skuInfo.vue'
 // 引入ts类型
 import { spuResponseType } from '~/api/product/spu/type'
 // spu数据列表
@@ -176,6 +185,16 @@ const addSkuBtn = (id: number | string) => {
     addSkuRef.value?.open(id, category1Id.value, category2Id.value, category3Id.value)
   })
 }
+// sku对话框的ref对象
+const skuInfoRef = ref()
+// 查看sku按钮的回调
+const openSku = (row: spuResponseType) => {
+  // 调用子组件暴露的函数
+  nextTick(() => {
+    skuInfoRef.value.open(row)
+  })
+}
+
 </script>
 
 <style lang="" scoped></style>
