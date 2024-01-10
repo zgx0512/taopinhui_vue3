@@ -94,7 +94,8 @@ import {
   spuImageListResponseType,
   imageResponseType,
   saleAttrResponseType,
-  saleAttrInfoResponseType
+  saleAttrInfoResponseType,
+  skuResponseType
 } from '~/api/product/spu/type'
 import { ElMessage } from 'element-plus'
 const emits = defineEmits(['cancel', 'submit'])
@@ -105,7 +106,7 @@ const category2Id = ref<number | string>('')
 // 三级分类id
 const category3Id = ref<number | string>('')
 // 表单数据对象
-const skuInfoForm = ref({
+const skuInfoForm = ref<skuResponseType>({
   category3Id: '', // 三级分类id
   skuName: '', // sku名称
   price: '', // 价格
@@ -245,10 +246,10 @@ const submit = () => {
       skuInfoForm.value.skuImageList = selImageList.value as never[]
       skuInfoForm.value.skuAttrValueList = selAttrInfoList.value.filter(
         (item) => item.valueId
-      ) as never[]
+      ) as []
       skuInfoForm.value.skuSaleAttrValueList = selSaleAttrInfoList.value.filter(
         (item) => item.saleAttrValueId
-      ) as never[]
+      ) as []
       // 调用函数，发送请求
       const result = await reqAddSkuInfo(skuInfoForm.value)
       if (result.code === 200) {
