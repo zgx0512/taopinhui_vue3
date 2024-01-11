@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <el-card>
+    <el-card v-if="showSkuData">
       <el-table border v-loading="loading" :data="skuList" style="margin-bottom: 10px">
         <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
         <el-table-column
@@ -40,13 +40,19 @@
               title="下架sku"
               @click="cancelSale(row.id)"
             ></el-button>
-            <el-button size="small" type="primary" icon="Edit" title="编辑sku"></el-button>
+            <el-button
+              size="small"
+              type="primary"
+              icon="Edit"
+              title="编辑sku"
+              @click="open(row.spuId, row.id, row.category3Id)"
+            ></el-button>
             <el-button
               size="small"
               type="info"
               icon="InfoFilled"
               title="查看sku"
-              @click="openSkuDetail(row.id)"  
+              @click="openSkuDetail(row.id)"
             ></el-button>
             <el-popconfirm
               :title="`确定删除${row.skuName}?`"
@@ -73,6 +79,8 @@
         @current-change="getSkuList()"
       />
     </el-card>
+    <!-- 修改sku的卡片 -->
+    <addOrUpdateSku ref="addOrUpdateSkuRef" v-else @cancel="cancel" @submit="submit"></addOrUpdateSku>
     <!-- 商品详情抽屉 -->
     <skuDetail ref="skuDetailRef"></skuDetail>
   </div>
@@ -80,7 +88,7 @@
 
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 // 引入接口函数
 import { reqSkuList, reqOnSaleSku, reqCancelSaleSku, reqRemoveSku } from '~/api/product/sku'
 // 引入ts类型
@@ -88,6 +96,8 @@ import { skuListResponseType } from '~/api/product/sku/type'
 import { skuResponseType } from '~/api/product/spu/type'
 // 引入子组件
 import skuDetail from './components/skuDetail.vue'
+// 引入子组件
+import addOrUpdateSku from './components/addOrUpdateSku.vue'
 // sku列表
 const skuList = ref<skuResponseType[]>([])
 // 当前页
@@ -100,6 +110,10 @@ const total = ref<number>(0)
 const loading = ref<boolean>(false)
 // 商品详情抽屉的ref对象
 const skuDetailRef = ref()
+// 修改sku卡片的ref对象
+const addOrUpdateSkuRef = ref()
+// 控制显示哪个卡片
+const showSkuData = ref<boolean>(true)
 // 获取sku列表的函数
 const getSkuList = async () => {
   // 开启加载效果
@@ -162,6 +176,24 @@ const removeSku = async (id: number | string) => {
     // 删除失败的提示
     ElMessage.error('删除失败')
   }
+}
+// 编辑sku按钮的回调
+const open = (spuId: number | string, skuId: number | string, category3Id: number | string) => {
+  showSkuData.value = false
+  nextTick(() => {
+    addOrUpdateSkuRef.value.open(spuId, 0, 0, category3Id, skuId)
+  })
+}
+// 子组件取消按钮的回调
+const cancel = () => {
+  showSkuData.value = true
+}
+// 子组件保存按钮的回调
+const submit = () => {
+  // 切换卡片
+  showSkuData.value = true
+  // 重新获取sku列表
+  getSkuList()
 }
 // 组件挂载完毕
 onMounted(() => {

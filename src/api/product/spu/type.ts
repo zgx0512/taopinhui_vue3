@@ -119,7 +119,7 @@ export interface skuSaleAttrResponseType {
   updateTime?: string
   skuId?: number | string
   spuId?: number | string
-  saleAttrVlaueId?: number | string
+  saleAttrValueId?: number | string
   saleAttrId?: number | string
   saleAttrName?: string
   saleAttrValueName?: string

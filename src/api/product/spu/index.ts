@@ -1,3 +1,11 @@
+/*
+ * @Author: zgx 2324461523@qq.com
+ * @Date: 2024-01-08 16:42:44
+ * @LastEditors: zgx 2324461523@qq.com
+ * @LastEditTime: 2024-01-11 19:04:39
+ * @FilePath: \taopinhui_vue3\src\api\product\spu\index.ts
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import request from '~/utils/http/axios'
 // 引入ts类型
 import {
@@ -19,7 +27,8 @@ enum API {
   SPUSALEATTRLIST_URL = '/admin/product/spuSaleAttrList/',
   ADDSKU_URL = '/admin/product/saveSkuInfo',
   FINDBYSPUID_URL = '/admin/product/findBySpuId/',
-  REMOVESPU_URL = '/admin/product/deleteSpu/'
+  REMOVESPU_URL = '/admin/product/deleteSpu/',
+  UPDATESKU_URL = '/admin/product/updateSkuInfo'
 }
 
 // 获取spu数据的接口
@@ -59,9 +68,14 @@ export const reqSpuSaleAttrList = (id: number | string) => {
   return request.get<saleAttrInfoResponseType, any>(API.SPUSALEATTRLIST_URL + id)
 }
 
-// 新增sku的接口
+// 新增|修改sku的接口
 export const reqAddSkuInfo = (data: any) => {
-  return request.post<nullResponseType, any>(API.ADDSKU_URL, data)
+  if (data.id) {
+    // 有id，是修改
+    return request.post<nullResponseType, any>(API.UPDATESKU_URL, data)
+  } else {
+    return request.post<nullResponseType, any>(API.ADDSKU_URL, data)
+  }
 }
 
 // 根据spuId查找对应的sku列表

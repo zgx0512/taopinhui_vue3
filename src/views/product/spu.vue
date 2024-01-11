@@ -72,7 +72,7 @@
       ref="addOrUpdateSpuRef"
     ></addOrUpdateSpu>
     <!-- 添加Sku卡片 -->
-    <addSku v-if="showSpuData === 2" ref="addSkuRef" @cancel="cancel" @submit="submit"></addSku>
+    <addOrUpdateSku v-if="showSpuData === 2" ref="addOrUpdateSkuRef" @cancel="cancel" @submit="submit"></addOrUpdateSku>
     <!-- 查看sku对话框 -->
     <skuInfo ref="skuInfoRef"></skuInfo>
   </div>
@@ -86,7 +86,7 @@ import { ref, nextTick } from 'vue'
 import { reqSpuInfo, reqRemoveSpu } from '~/api/product/spu'
 // 引入子组件
 import addOrUpdateSpu from './components/addOrUpdateSpu.vue'
-import addSku from './components/addSku.vue'
+import addOrUpdateSku from './components/addOrUpdateSku.vue'
 import skuInfo from './components/skuInfo.vue'
 // 引入ts类型
 import { spuResponseType } from '~/api/product/spu/type'
@@ -192,12 +192,12 @@ const submit = (id: number | string) => {
   showSpuData.value = 0
 }
 // 添加sku组件的ref对象
-const addSkuRef = ref()
+const addOrUpdateSkuRef = ref()
 // 添加sku按钮的回调
 const addSkuBtn = (id: number | string) => {
   showSpuData.value = 2
   nextTick(() => {
-    addSkuRef.value?.open(id, category1Id.value, category2Id.value, category3Id.value)
+    addOrUpdateSkuRef.value?.open(id, category1Id.value, category2Id.value, category3Id.value)
   })
 }
 // sku对话框的ref对象

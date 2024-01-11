@@ -57,7 +57,12 @@
         </el-form>
       </el-form-item>
       <el-form-item label="图片名称">
-        <el-table :data="spuImageList" border @selection-change="handleSelectionChange">
+        <el-table
+          :data="spuImageList"
+          border
+          @selection-change="handleSelectionChange"
+          ref="skuImageRef"
+        >
           <el-table-column type="selection" width="80" align="center"></el-table-column>
           <el-table-column label="图片">
             <template #default="{ row }">
@@ -84,10 +89,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, defineExpose, defineEmits } from 'vue'
+import { ref, defineExpose, defineEmits, nextTick } from 'vue'
 // 引入接口函数
 import { reqAttrInfo } from '~/api/product/attr'
 import { reqSpuImageList, reqSpuSaleAttrList, reqAddSkuInfo } from '~/api/product/spu'
+import { reqSkuInfo } from '~/api/product/sku'
 // 引入ts类型
 import { attrInfoResponse, attrReponseType } from '~/api/product/attr/type'
 import {
@@ -107,7 +113,7 @@ const category2Id = ref<number | string>('')
 const category3Id = ref<number | string>('')
 // 表单数据对象
 const skuInfoForm = ref<skuResponseType>({
-  spuId: '',   // spuId
+  spuId: '', // spuId
   category3Id: '', // 三级分类id
   skuName: '', // sku名称
   price: '', // 价格
@@ -125,8 +131,7 @@ const rules = ref({
   skuName: { required: true, message: 'SKU名称不能为空', trigger: 'blur' },
   skuDesc: { required: true, message: 'SKU描述不能为空', trigger: 'blur' },
   price: { required: true, message: '价格不能为空', trigger: 'blur' },
-  weight: { required: true, message: '重量不能为空', trigger: 'blur' },
-  
+  weight: { required: true, message: '重量不能为空', trigger: 'blur' }
 })
 // 商品属性列表
 const attrInfoList = ref<attrReponseType[]>([])
@@ -152,33 +157,74 @@ const selSaleAttrInfoList = ref<selSaleAttrInfoType[]>([])
 const selImageList = ref<imageResponseType[]>([])
 // 按钮加载效果
 const loading = ref<boolean>(false)
+// sku图片表格的ref对象
+const skuImageRef = ref()
 // 打开卡片的回调
-const open = (
+const open = async (
   id: number | string,
   c1Id: number | string,
   c2Id: number | string,
-  c3Id: number | string
+  c3Id: number | string,
+  skuId: number | string = ''
 ) => {
   // 赋值
   category1Id.value = c1Id
   category2Id.value = c2Id
   category3Id.value = c3Id
-  // 调用函数
-  getAttrInfoList()
-  getSpuSaleAttrList(id)
-  getSpuImageList(id)
-  // 每次打开卡片，都清空上一次的数据
-  skuInfoForm.value = {
-    spuId: id,
-    category3Id: '', // 三级分类id
-    skuName: '', // sku名称
-    price: '', // 价格
-    weight: '', // 重量
-    skuDesc: '', // 描述
-    skuDefaultImg: '', // 默认图片
-    skuImageList: [], // 图片列表
-    skuAttrValueList: [],
-    skuSaleAttrValueList: []
+
+  if (!skuId) {
+    // 新增sku，每次都清空上一次的数据
+    skuInfoForm.value = {
+      spuId: id,
+      category3Id: '', // 三级分类id
+      skuName: '', // sku名称
+      price: '', // 价格
+      weight: '', // 重量
+      skuDesc: '', // 描述
+      skuDefaultImg: '', // 默认图片
+      skuImageList: [], // 图片列表
+      skuAttrValueList: [],
+      skuSaleAttrValueList: []
+    }
+    // 调用函数
+    getAttrInfoList()
+    getSpuSaleAttrList(id)
+    getSpuImageList(id)
+  } else {
+    // 编辑sku，调用函数，获取数据
+    let p1 = await getSkuList(skuId)
+    let p2 = await getAttrInfoList()
+    let p3 = await getSpuSaleAttrList(id)
+    let p4 = await getSpuImageList(id)
+    Promise.all([p1, p2, p3, p4]).then((result) => {
+      spuImageList.value?.forEach((item) => {
+        const res = selImageList.value.some((item1) => item1.imgName === item.imgName)
+        // 设置默认选中的图片
+        skuImageRef.value.toggleRowSelection(item, res)
+        if (item.imgUrl === skuInfoForm.value.skuDefaultImg) {
+          // 将当前行的按钮设为默认
+          item.default = true
+        }
+      })
+      selAttrInfoList.value = selAttrInfoList.value.map((item) => {
+        const data = skuInfoForm.value.skuAttrValueList?.find(
+          (item1) => item1.attrId === item.attrId
+        )
+        return {
+          attrId: item.attrId,
+          valueId: data?.valueId || item.valueId
+        }
+      })
+      selSaleAttrInfoList.value = selSaleAttrInfoList.value.map((item) => {
+        const data = skuInfoForm.value.skuSaleAttrValueList?.find((item1) => {
+          return item1.saleAttrId === item.saleAttrId
+        })
+        return {
+          saleAttrId: item.saleAttrId,
+          saleAttrValueId: data?.saleAttrValueId || item.saleAttrValueId
+        }
+      })
+    })
   }
 }
 // 获取基础属性列表的函数
@@ -196,7 +242,9 @@ const getAttrInfoList = async () => {
         valueId: ''
       }
     })
+    return 'ok'
   }
+  return Promise.reject(new Error(''))
 }
 // 获取spu图片的函数
 const getSpuImageList = async (id: number | string) => {
@@ -204,7 +252,9 @@ const getSpuImageList = async (id: number | string) => {
   if (result.code === 200) {
     spuImageList.value = result.data
     spuImageList.value.forEach((item) => (item['default'] = false))
+    return 'ok'
   }
+  return Promise.reject(new Error(''))
 }
 // 获取spu已有销售属性的函数
 const getSpuSaleAttrList = async (id: number | string) => {
@@ -213,11 +263,24 @@ const getSpuSaleAttrList = async (id: number | string) => {
     spuSaleAttrList.value = result.data
     selSaleAttrInfoList.value = result.data.map((item) => {
       return {
-        saleAttrId: item.id as string,
+        saleAttrId: item.baseSaleAttrId as string,
         saleAttrValueId: ''
       }
     })
+    return 'ok'
   }
+  return Promise.reject(new Error(''))
+}
+// 获取sku详情的函数
+const getSkuList = async (id: number | string) => {
+  // 调用接口
+  const result = await reqSkuInfo(id)
+  if (result.code === 200) {
+    skuInfoForm.value = result.data
+    selImageList.value = result.data.skuImageList
+    return 'ok'
+  }
+  return Promise.reject(new Error(''))
 }
 // 取消按钮的回调
 const cancel = () => {
