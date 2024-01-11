@@ -2,7 +2,7 @@
  * @Author: zgx 2324461523@qq.com
  * @Date: 2024-01-08 16:42:47
  * @LastEditors: zgx 2324461523@qq.com
- * @LastEditTime: 2024-01-08 17:24:16
+ * @LastEditTime: 2024-01-11 12:17:40
  * @FilePath: \taopinhui_vue3\src\api\product\spu\type.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -101,7 +101,29 @@ export interface nullResponseType extends responseType {
 export interface spuImageListResponseType extends responseType {
   data: imageResponseType[]
 }
-
+// sku商品属性的ts类型
+export interface skuAttrResponseType {
+  id?: number | string
+  createTime?: string
+  updateTime?: string
+  attrId?: number | string
+  valueId?: number | string
+  skuId?: number | string
+  attrName?: string
+  valueName?: string
+}
+// sku基础属性的ts类型
+export interface skuSaleAttrResponseType {
+  id?: number | string
+  createTime?: string
+  updateTime?: string
+  skuId?: number | string
+  spuId?: number | string
+  saleAttrVlaueId?: number | string
+  saleAttrId?: number | string
+  saleAttrName?: string
+  saleAttrValueName?: string
+}
 // 每个sku的ts类型
 export interface skuResponseType {
   id?: number | string
@@ -117,8 +139,8 @@ export interface skuResponseType {
   skuDefaultImg?: string
   isSale?: number
   skuImageList?: imageResponseType[] | null
-  skuAttrValueList?: [] |null
-  skuSaleAttrValueList?: [] | null
+  skuAttrValueList?: skuAttrResponseType[] | null
+  skuSaleAttrValueList?: skuSaleAttrResponseType[] | null
 }
 
 // 根据spuId获取sku列表接口返回值的ts类型
