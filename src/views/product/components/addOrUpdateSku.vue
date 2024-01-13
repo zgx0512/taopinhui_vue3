@@ -171,7 +171,10 @@ const open = async (
   category1Id.value = c1Id
   category2Id.value = c2Id
   category3Id.value = c3Id
-
+  // 调用函数
+  let p2 = await getAttrInfoList()
+  let p3 = await getSpuSaleAttrList(id)
+  let p4 = await getSpuImageList(id)
   if (!skuId) {
     // 新增sku，每次都清空上一次的数据
     skuInfoForm.value = {
@@ -186,16 +189,9 @@ const open = async (
       skuAttrValueList: [],
       skuSaleAttrValueList: []
     }
-    // 调用函数
-    getAttrInfoList()
-    getSpuSaleAttrList(id)
-    getSpuImageList(id)
   } else {
     // 编辑sku，调用函数，获取数据
     let p1 = await getSkuList(skuId)
-    let p2 = await getAttrInfoList()
-    let p3 = await getSpuSaleAttrList(id)
-    let p4 = await getSpuImageList(id)
     Promise.all([p1, p2, p3, p4]).then((result) => {
       spuImageList.value?.forEach((item) => {
         const res = selImageList.value.some((item1) => item1.imgName === item.imgName)

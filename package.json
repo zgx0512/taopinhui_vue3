@@ -30,6 +30,7 @@
     "qs": "^6.11.2",
     "svg-sprite-loader": "^6.0.11",
     "vform3-builds": "^3.0.10",
+    "vite-plugin-svg-icons": "^2.0.1",
     "vue": "^3.3.4",
     "vue-codemirror": "^6.1.1",
     "vue-cropperjs": "^5.0.0",

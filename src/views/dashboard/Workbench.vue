@@ -2,134 +2,111 @@
   <div class="container">
     <div class="flex items-center justify-between px-6 pt-4 mb-8">
       <div class="flex items-center">
-        <el-avatar size="large" class="mr-4" :src="imgurl" />
+        <el-avatar size="large" class="mr-4" :src="avatar" />
         <div>
-          <p class="mb-2">早安, Vivian, 开始您一天的工作吧！</p>
-          <p class="text-gray-400">今日晴，20℃ - 32℃！</p>
-        </div>
-      </div>
-      <div class="flex">
-        <div class="mr-10 text-right">
-          <p class="mb-2 text-gray-400">待办</p>
-          <p class="text-xl">2/10</p>
-        </div>
-        <div class="mr-10 text-right">
-          <p class="mb-2 text-gray-400">项目</p>
-          <p class="text-xl">5</p>
-        </div>
-        <div class="text-right">
-          <p class="mb-2 text-gray-400">应收</p>
-          <p class="text-xl">5000</p>
+          <p class="mb-2" style="font-size: 24px">
+            {{ getTime() }}, {{ getTime() === '午夜时间，请注意休息哦！' ? '' : name }}
+          </p>
+          <p class="text-gray-400"></p>
         </div>
       </div>
     </div>
-    <div class="flex">
-      <div class="w-2/3 mr-4">
-        <el-card class="box-card">
-          <template #header>
-            <div class="flex justify-between card-header">
-              <span>最新动态</span>
-              <el-link v-permiss="['2']">查看更多</el-link>
-              <el-link v-auth="'super1'">查看更多</el-link>
-            </div>
-          </template>
-          <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
-        </el-card>
-      </div>
-      <div class="w-1/3">
-        <el-card>
-          <template #header>
-            <div class="card-header">
-              <span>快捷导航</span>
-            </div>
-          </template>
-          <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
-        </el-card>
-        <el-card class="mt-4"><PieChart /></el-card>
-      </div>
+    <div class="flex box">
+      <el-row>
+        <el-col :span="12" class="nav">
+          <el-card style="height: 100%">
+            <template #header>
+              <div class="card-header">
+                <span>快捷方式</span>
+              </div>
+            </template>
+            <el-row>
+              <el-col
+                :span="12"
+                v-for="(nav, index) in navList"
+                :key="nav.name"
+                class="item"
+                @click="go(nav.url)"
+              >
+                <div :style="{ 'margin-bottom': index < navList.length - 2 ? '20px' : '0' }">
+                  <svg-icon :name="nav.icon"></svg-icon>
+                  {{ nav.name }}
+                </div>
+              </el-col>
+            </el-row>
+          </el-card>
+        </el-col>
+        <el-col :span="12" class="nav">
+          <el-card class="pic">
+            <template #header>
+              <div class="card-header">
+                <span>技术栈</span>
+              </div>
+            </template>
+            <PieChart />
+          </el-card>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
 
 <script setup lang="ts" name="Workbench">
-import { reactive } from 'vue'
-import imgurl from '~/assets/images/img.jpg'
+import { ref } from 'vue'
 import PieChart from './components/PieChart.vue'
 import { useUserStore } from '~/store/user'
+import { useRouter } from 'vue-router'
+// 获取时间
+import { getTime } from '~/utils/getTime'
+// 创建路由对象
+const router = useRouter()
 
 const userStore = useUserStore()
+// 用户名
 const name = userStore.userInfo.username
-const role: string = name === 'admin' ? '超级管理员' : '普通用户'
-
-const options = {
-  type: 'bar',
-  title: {
-    text: '最近一周各品类销售图'
-  },
-  xRorate: 25,
-  labels: ['周一', '周二', '周三', '周四', '周五'],
-  datasets: [
-    {
-      label: '家电',
-      data: [234, 278, 270, 190, 230]
-    },
-    {
-      label: '百货',
-      data: [164, 178, 190, 135, 160]
-    },
-    {
-      label: '食品',
-      data: [144, 198, 150, 235, 120]
-    }
-  ]
-}
-const options2 = {
-  type: 'line',
-  title: {
-    text: '最近几个月各品类销售趋势图'
-  },
-  labels: ['6月', '7月', '8月', '9月', '10月'],
-  datasets: [
-    {
-      label: '家电',
-      data: [234, 278, 270, 190, 230]
-    },
-    {
-      label: '百货',
-      data: [164, 178, 150, 135, 160]
-    },
-    {
-      label: '食品',
-      data: [74, 118, 200, 235, 90]
-    }
-  ]
-}
-const todoList = reactive([
+// 头像
+const avatar = userStore.userInfo.avatar
+// 快捷导航列表
+const navList = ref([
   {
-    title: '今天要修复100个bug',
-    status: false
+    name: '用户管理',
+    url: '/acl/user',
+    icon: 'user'
   },
   {
-    title: '今天要修复100个bug',
-    status: false
+    name: '角色管理',
+    url: '/acl/role',
+    icon: 'role'
   },
   {
-    title: '今天要写100行代码加几个bug吧',
-    status: false
+    name: '菜单管理',
+    url: '/acl/permission',
+    icon: 'permission'
   },
   {
-    title: '今天要修复100个bug',
-    status: false
+    name: 'SPU管理',
+    url: '/product/spu',
+    icon: 'spu'
   },
   {
-    title: '今天要修复100个bug',
-    status: true
+    name: 'SKU管理',
+    url: '/product/sku',
+    icon: 'sku'
   },
   {
-    title: '今天要写100行代码加几个bug吧',
-    status: true
+    name: '品牌管理',
+    url: '/product/trademark',
+    icon: 'trademark'
+  },
+  {
+    name: '属性管理',
+    url: '/product/attr',
+    icon: 'attr'
   }
 ])
+const go = (url: string) => {
+  router.push(url)
+}
 </script>
 
 <style scoped>
@@ -225,5 +202,21 @@ const todoList = reactive([
 .todo-item-del {
   text-decoration: line-through;
   color: #999;
+}
+.nav {
+  height: 350px;
+}
+.nav .item {
+  cursor: pointer;
+  text-align: center;
+}
+.box {
+  height: 350px;
+  padding: 0 30px;
+}
+.box .pic {
+  width: 450px;
+  margin-left: 20px;
+  height: 100%;
 }
 </style>

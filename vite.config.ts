@@ -11,6 +11,7 @@ import path from 'path'
 import dayjs from 'dayjs'
 import pkg from './package.json'
 import { createSvg } from './src/components/svgIcon/svg'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 const { dependencies, devDependencies, name, version } = pkg
 const __APP_INFO__ = {
@@ -104,7 +105,11 @@ export default ({ mode }) => {
         }
       },
 
-      createSvg('./src/components/svgIcon/svgIcons/')
+      createSvg('./src/components/svgIcon/svgIcons/'),
+       createSvgIconsPlugin({
+      iconDirs: [path.resolve(process.cwd(), "src/assets/icons")],
+      symbolId: "icon-[dir]-[name]",
+    }),
     ],
 
     resolve: {

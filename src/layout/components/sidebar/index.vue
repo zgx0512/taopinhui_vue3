@@ -2,7 +2,7 @@
  * @Author: zgx 2324461523@qq.com
  * @Date: 2023-07-16 05:52:36
  * @LastEditors: zgx 2324461523@qq.com
- * @LastEditTime: 2024-01-06 18:21:36
+ * @LastEditTime: 2024-01-13 18:14:54
  * @FilePath: \taopinhui_vue3\src\layout\components\sidebar\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -25,7 +25,6 @@
 import { RouteRecordRaw, useRoute } from 'vue-router'
 import router from '~/router'
 import { useSidebarStore } from '~/store/sidebar'
-import { useUserStore } from '~/store/user'
 import SidebarItem from './SidebarItem.vue'
 
 const sidebar = useSidebarStore()

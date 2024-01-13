@@ -18,20 +18,8 @@
         @change="toggleDark()"
         style="--el-switch-on-color: #0960bd; --el-switch-off-color: #ff6600"
       />
-
-      <el-select v-model="tenantId" class="mr-4" placeholder="Select">
-        <el-option
-          v-for="item in tenantOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
       <div class="flex items-center">
         <Language class="mx-4" />
-
-        <!-- 消息中心 -->
-        <Message />
         <!-- 用户头像 -->
         <el-avatar class="ml-2" :size="30" :src="imgUrl" />
         <!-- 用户名下拉菜单 -->
@@ -47,7 +35,6 @@
               <a href="#" target="_blank">
                 <el-dropdown-item>项目仓库</el-dropdown-item>
               </a>
-              <el-dropdown-item command="user">个人中心</el-dropdown-item>
               <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -67,7 +54,6 @@ import { useDark, useToggle } from '@vueuse/core'
 import { Sunny, Moon } from '@element-plus/icons-vue'
 import { useUserStore } from '~/store/user'
 import SiteSearch from '../SiteSearch.vue'
-import Message from '../Message.vue'
 import Language from '../Language.vue'
 import ThemeSetting from '../ThemeSetting.vue'
 
@@ -78,9 +64,6 @@ darkMode.value = isDark.value
 const toggleDark = useToggle(isDark)
 
 const userStore = useUserStore()
-
-const tenantId = ref('mocha')
-const tenantOptions: Array<SelectOptionItem> = reactive([{ value: 'mocha', label: 'mocha' }])
 
 const username: string | null = userStore.userInfo.username
 const imgUrl: string = userStore.userInfo.avatar
