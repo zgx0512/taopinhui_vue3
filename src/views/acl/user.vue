@@ -338,6 +338,8 @@ const assignRole = async () => {
     assignLoading.value = false
     // 关闭抽屉
     assignRoleDrawer.value = false
+    // 重新获取表格数据
+    getUserInfo()
   } catch (error) {
     // 失败提示信息
     ElMessage({

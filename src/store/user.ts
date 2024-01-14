@@ -2,7 +2,7 @@
  * @Author: zgx 2324461523@qq.com
  * @Date: 2023-07-16 05:52:36
  * @LastEditors: zgx 2324461523@qq.com
- * @LastEditTime: 2024-01-14 18:33:19
+ * @LastEditTime: 2024-01-14 20:18:20
  * @FilePath: \taopinhui_vue3\src\store\user.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -91,6 +91,7 @@ export const useUserStore = defineStore('userStore', () => {
       // 清空token
       clearToken()
       token.value = ''
+      location.reload()
       return 'ok'
     }
     return Promise.reject(new Error())
@@ -102,6 +103,6 @@ export const useUserStore = defineStore('userStore', () => {
     asyncRoutes,
     userLogin,
     userLogout,
-    getUserInfo,
+    getUserInfo
   }
 })
