@@ -12,7 +12,6 @@
         />
       </el-col>
     </el-row>
-    <el-card class="mt-4"> <MyEchart :options="options1" style="height: 300px"></MyEchart></el-card>
     <el-row :gutter="16" class="mt-4">
       <el-col :span="8"
         ><el-card><PieChart /></el-card
@@ -42,7 +41,7 @@ const cardData = [
     color: 'orange'
   },
   {
-    title: '下载量',
+    title: '品牌数',
     count: 8476,
     desc: 'download ',
     rate: '+0.8%',
@@ -67,27 +66,6 @@ const cardData = [
   }
 ]
 
-const options1 = reactive({
-  title: {
-    text: '成交趋势'
-  },
-  xAxis: {
-    type: 'category',
-    boundaryGap: false,
-    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  },
-  yAxis: {
-    type: 'value'
-  },
-  series: [
-    {
-      data: [820, 932, 901, 934, 1290, 1330, 1320],
-      type: 'line',
-      areaStyle: {}
-    }
-  ]
-})
-
 const options3 = reactive({
   title: {
     text: '访问趋势',
@@ -110,34 +88,23 @@ const options3 = reactive({
 
 const options4 = reactive({
   title: {
-    text: '成交占比',
-    subtext: '2023.3.28',
+    text: '访问趋势',
     left: 'left'
   },
-  legend: {
-    top: 'bottom'
+  xAxis: {
+    type: 'category',
+    data: ['用户数', '订单数', '商品数', '品牌数']
   },
-
+  yAxis: {
+    type: 'value',
+    axisLine: {
+      show: true
+    }
+  },
   series: [
     {
-      name: 'Nightingale Chart',
-      type: 'pie',
-      radius: [50, 120],
-      center: ['50%', '50%'],
-      roseType: 'area',
-      itemStyle: {
-        borderRadius: 8
-      },
-      data: [
-        { value: 40, name: 'rose 1' },
-        { value: 38, name: 'rose 2' },
-        { value: 32, name: 'rose 3' },
-        { value: 30, name: 'rose 4' },
-        { value: 28, name: 'rose 5' },
-        { value: 26, name: 'rose 6' },
-        { value: 22, name: 'rose 7' },
-        { value: 18, name: 'rose 8' }
-      ]
+      data: [50, 260, 150, 40],
+      type: 'bar'
     }
   ]
 })
