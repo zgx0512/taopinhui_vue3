@@ -2,7 +2,7 @@
  * @Author: zgx 2324461523@qq.com
  * @Date: 2023-07-16 05:52:36
  * @LastEditors: zgx 2324461523@qq.com
- * @LastEditTime: 2024-01-14 18:05:37
+ * @LastEditTime: 2024-01-14 18:33:19
  * @FilePath: \taopinhui_vue3\src\store\user.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -19,7 +19,8 @@ export const useUserStore = defineStore('userStore', () => {
   // 用户信息
   const userInfo = ref({
     avatar: '',
-    username: ''
+    username: '',
+    buttons: []
   })
   // token
   const token = ref<string>(getToken() as string)
@@ -64,6 +65,7 @@ export const useUserStore = defineStore('userStore', () => {
       // 请求成功
       userInfo.value.avatar = result.data.avatar
       userInfo.value.username = result.data.name
+      userInfo.value.buttons = result.data.buttons
       // 每次进来，都将routes复原回只有同步路由跟404路由
       router.options.routes = [...constantRoutes, ...lastRoutes]
       asyncRoutes = getAsyncRoutes(routeModuleList, result.data.routes)
@@ -100,6 +102,6 @@ export const useUserStore = defineStore('userStore', () => {
     asyncRoutes,
     userLogin,
     userLogout,
-    getUserInfo
+    getUserInfo,
   }
 })

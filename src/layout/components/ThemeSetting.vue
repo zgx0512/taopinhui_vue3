@@ -100,7 +100,6 @@ let colors = reactive({
 })
 
 function setCssVars() {
-  console.log(useTheme.css)
   colors.primary.value =
     useTheme.css['--el-color-primary'] || currentCss.getPropertyValue('--el-color-primary')
 
@@ -111,7 +110,6 @@ function setCssVars() {
 }
 
 function changeLayout(layout: string) {
-  console.log(layout)
   useTheme.setLayoutScheme(layout)
 }
 

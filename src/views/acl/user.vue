@@ -18,7 +18,13 @@
     </el-card>
     <!-- 展示用户数据卡片 -->
     <el-card>
-      <el-button type="primary" icon="Plus" @click="openAddOrUpdateDrawer">添加用户</el-button>
+      <el-button
+        type="primary"
+        icon="Plus"
+        @click="openAddOrUpdateDrawer"
+        v-if="permissionBtn('btn.User.add')"
+        >添加用户</el-button
+      >
       <el-button type="danger" icon="Delete" :disabled="idList.length === 0" @click="batchRemove"
         >批量删除</el-button
       >
@@ -107,6 +113,8 @@ import { ElMessageBox } from 'element-plus'
 import addOrUpdateUser from './components/addOrUpdateUser.vue'
 // 引入ts类型
 import { userResponseType, roleResponseType } from '~/api/acl/user/type'
+// 引入按钮权限函数
+import { permissionBtn } from '~/utils/permissionBtn'
 const username = ref<string>('')
 const tableData = ref<userResponseType[]>([])
 // 表头
