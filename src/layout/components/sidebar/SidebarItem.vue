@@ -24,7 +24,7 @@
       :item="item1"
       :parent-path="getPath(parentPath, item.path)"
       :level="level + 1"
-      v-for="(item1, index1) in filteredItems"
+      v-for="item1 in filteredItems"
     />
   </el-sub-menu>
   <el-menu-item :index="getPath(parentPath, item.path)" v-else>

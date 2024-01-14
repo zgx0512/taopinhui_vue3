@@ -2,7 +2,7 @@
  * @Author: zgx 2324461523@qq.com
  * @Date: 2023-07-16 05:52:36
  * @LastEditors: zgx 2324461523@qq.com
- * @LastEditTime: 2024-01-04 14:12:49
+ * @LastEditTime: 2024-01-14 22:58:16
  * @FilePath: \taopinhui_vue3\src\router\index.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -37,7 +37,8 @@ const constantRoutes: RouteRecordRaw[] = [
         path: 'workbench',
         name: 'workbench',
         meta: {
-          title: '工作台'
+          title: '工作台',
+          icon: 'ep-data-analysis'
         },
         component: () => import('~/views/dashboard/Workbench.vue')
       },
@@ -45,7 +46,8 @@ const constantRoutes: RouteRecordRaw[] = [
         path: 'analysis',
         name: 'analysis',
         meta: {
-          title: '分析'
+          title: '分析',
+          icon: 'ep-histogram'
         },
         component: () => import('~/views/dashboard/Analysis.vue')
       }
@@ -77,6 +79,16 @@ const constantRoutes: RouteRecordRaw[] = [
       title: '没有权限'
     },
     component: () => import(/* webpackChunkName: "400" */ '../views/403.vue')
+  },
+  {
+    path: '/screen',
+    name: '数据大屏',
+    meta: {
+      title: '数据大屏',
+      order: 2,
+      icon: 'ep-monitor'
+    },
+    component: () => import('~/views/screen/index.vue')
   }
 ]
 const lastRoutes = [
@@ -97,7 +109,7 @@ let routes = constantRoutes
 if (import.meta.env.VITE_PERMISSION_MODE === 'CONSTANT') {
   routes = [...constantRoutes, ...lastRoutes]
 }
-  
+
 const router = createRouter({
   history: createWebHashHistory(),
   routes
