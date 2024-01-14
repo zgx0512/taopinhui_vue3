@@ -7,6 +7,7 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import Layout from '~/layout/index.vue'
 
 const modules = import.meta.glob('./modules/**/*.ts', { eager: true })
 
@@ -20,6 +21,36 @@ Object.values(modules).forEach((key: any) => {
 })
 
 const constantRoutes: RouteRecordRaw[] = [
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: Layout,
+    redirect: '/dashboard/workbench',
+    meta: {
+      title: '仪表盘',
+      icon: 'ep-sunrise',
+      order: 1
+    },
+
+    children: [
+      {
+        path: 'workbench',
+        name: 'workbench',
+        meta: {
+          title: '工作台'
+        },
+        component: () => import('~/views/dashboard/Workbench.vue')
+      },
+      {
+        path: 'analysis',
+        name: 'analysis',
+        meta: {
+          title: '分析'
+        },
+        component: () => import('~/views/dashboard/Analysis.vue')
+      }
+    ]
+  },
   {
     path: '/',
     name: 'Home',
@@ -64,9 +95,9 @@ let routes = constantRoutes
 
 // 前端固定路由模式
 if (import.meta.env.VITE_PERMISSION_MODE === 'CONSTANT') {
-  routes = [...routeModuleList, ...constantRoutes]
+  routes = [...constantRoutes, ...lastRoutes]
 }
-
+  
 const router = createRouter({
   history: createWebHashHistory(),
   routes

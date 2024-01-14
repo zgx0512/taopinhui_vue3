@@ -8,17 +8,19 @@ const userStore = useUserStore(pinia)
 const { userInfo, getUserInfo, userLogout } = userStore
 
 router.beforeEach(async (to, from, next) => {
-  document.title = `${to.meta.title} | 淘品汇后台管理系统`
   if (userStore.token) {
     // 有token，已登录状态
     if (to.path === '/login') {
       next('/')
     } else {
-      if (userInfo.avatar === '' && userInfo.username === '') {
+      if (
+        userStore.asyncRoutes.length < 0 ||
+        (userInfo.avatar === '' && userInfo.username === '')
+      ) {
         // 头像跟名称为空，重新发送获取用户信息的请求
         try {
           await getUserInfo()
-          next()
+          next(to.path)
         } catch (error) {
           // token失效了，直接退出登录
           userLogout()
@@ -37,4 +39,8 @@ router.beforeEach(async (to, from, next) => {
       next()
     }
   }
+})
+
+router.afterEach((to) => {
+  document.title = `${to.meta.title} | 淘品汇后台管理系统`
 })

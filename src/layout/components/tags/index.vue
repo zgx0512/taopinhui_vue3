@@ -104,7 +104,6 @@ const setTags = (route: any) => {
 setTags(route)
 
 watch(route, (newVal) => {
-  console.log(route)
   setTags(route)
 })
 
