@@ -25,10 +25,6 @@
             >
             </el-input>
           </el-form-item>
-          <div class="flex justify-between mb-4">
-            <el-checkbox>记住我</el-checkbox>
-            <el-link>忘记密码？</el-link>
-          </div>
           <div>
             <el-button class="w-full" type="primary" @click="submitForm(login)" :loading="loading"
               >登录</el-button
