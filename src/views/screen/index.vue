@@ -1,7 +1,12 @@
 <template>
   <div class="screen_container">
     <el-row style="color: #fff">
-      <el-col :span="12" :offset="6" class="title">年货节实时战况</el-col>
+      <el-col :span="6">
+        <el-button size="small" color="#063161" :drak="true" style="margin: 10px 0 0 10px" @click="goBack"
+          >返回</el-button
+        >
+      </el-col>
+      <el-col :span="12" class="title">年货节实时战况</el-col>
       <el-col :span="6" class="time">{{ time }}</el-col>
     </el-row>
     <el-row>
@@ -32,6 +37,10 @@ import radarChart from './components/radarChart.vue'
 import scalePieChart from './components/scalePieChart.vue'
 // 获取时间的函数
 import { getCurrentTime } from '~/utils/getTime'
+// 引入路由
+import { useRouter } from 'vue-router'
+// 注册路由对象
+const router = useRouter()
 // 时间
 const time = ref<string>(getCurrentTime())
 // 定时器
@@ -44,6 +53,10 @@ onMounted(() => {
 onUnmounted(() => {
   clearInterval(timeOut.value)
 })
+// 返回按钮的回调
+const goBack = () => {
+  router.push('/')
+}
 </script>
 
 <style lang="scss" scoped>
