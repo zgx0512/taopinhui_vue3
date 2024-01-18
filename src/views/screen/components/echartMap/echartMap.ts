@@ -33,8 +33,7 @@ export default () => {
         showDelay: 0,
         transitionDuration: 0.2,
         formatter: (param: any) => {
-            console.log(param)
-            return `${param.data.name}<br/>销售额：${param.data.value}万`
+            return param.data ? `${param.data.name}<br/>销售额：${param.data.value}万` : ''
         },
         textStyle: {
             fontSize: 10
@@ -66,6 +65,7 @@ export default () => {
           type: 'map',
           map: 'china',
           roam: true,
+          top: '15px',
           label: {
             color: '#fff',
             fontSize: 6,

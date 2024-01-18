@@ -9,6 +9,15 @@
       <el-col :span="12"><real></real></el-col>
       <el-col :span="6"><hotGoods></hotGoods></el-col>
     </el-row>
+    <el-row>
+      <el-col :span="12"><lineChart></lineChart></el-col>
+      <el-col :span="12">
+        <el-row>
+          <el-col :span="12"><radarChart></radarChart></el-col>
+          <el-col :span="12"><scalePieChart></scalePieChart></el-col>
+        </el-row>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -18,6 +27,9 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import saleTarget from './components/saleTarget.vue'
 import real from './components/real.vue'
 import hotGoods from './components/hotGoods.vue'
+import lineChart from './components/lineChart.vue'
+import radarChart from './components/radarChart.vue'
+import scalePieChart from './components/scalePieChart.vue'
 // 获取时间的函数
 import { getCurrentTime } from '~/utils/getTime'
 // 时间
@@ -44,7 +56,7 @@ onUnmounted(() => {
   width: 100vm;
   height: 100vh;
   background: url('~/assets/images/bg.jpg') no-repeat;
-  background-size: 100%;
+  background-size: 100% 100%;
   .title {
     height: 60px;
     line-height: 60px;
@@ -60,8 +72,9 @@ onUnmounted(() => {
     font-size: 35px;
     font-family: 'UnidreamLED';
     font-style: italic;
-    text-align: center;
+    text-align: right;
     line-height: 60px;
+    padding-right: 20px;
   }
 }
 </style>

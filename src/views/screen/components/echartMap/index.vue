@@ -15,7 +15,7 @@ onMounted(() => {
   // 初始化画布
   const map = echarts.init(mapDom.value)
   // registerMap 注册一个地图
-  echarts.registerMap('china', china)
+  echarts.registerMap('china', china as any)
   // 这个调用是进行地图的渲染
   map.setOption(mapRender(china.features))
 })

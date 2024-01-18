@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MyEchart :options="options" style="width: 100%; height: 230px"></MyEchart>
+    <MyEchart :options="options" style="width: 100%; height: 210px"></MyEchart>
   </div>
 </template>
 
@@ -75,16 +75,17 @@ const options = reactive({
       show: false
     }
   },
+  barWidth: '60%',
   grid: {
     left: '2%',
-    bottom: '30px',
-    top: '20px',
+    bottom: '15px',
+    top: '10px',
     containLabel: true
   },
   legend: {
     show: true,
     data: ['实际', '目标'],
-    bottom: '5px',
+    bottom: '-5px',
     itemWidth: 10,
     itemHeight: 5,
     textStyle: {
@@ -117,7 +118,7 @@ const options = reactive({
       name: 'Evaporation',
       type: 'bar',
       xAxisIndex: 0, //展示在第一层横坐标上
-      stack: 'total',
+      stack: 'total',   // 多种数据合并到一条柱子上的属性
       data: data3,
       itemStyle: {
         color: '#2b89ed'
