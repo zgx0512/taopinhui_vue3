@@ -48,7 +48,7 @@ import { UserInfo } from '~/types/index'
 const router = useRouter()
 const param: UserInfo = reactive({
   username: 'admin',
-  password: 'atguigu123'
+  password: '111111'
 })
 // 登录按钮加载效果
 const loading = ref<boolean>(false)
@@ -83,7 +83,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         ElMessage({
           type: 'error',
           message: '登录失败'
-  
+
         })
         loading.value = false
       }
